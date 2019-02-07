@@ -1,0 +1,170 @@
+---
+title: "Exploring the BRFSS data"
+output: 
+  html_document: 
+    fig_height: 4
+    highlight: pygments
+    theme: spacelab
+editor_options: 
+  chunk_output_type: console
+---
+
+## Setup
+
+### Load packages
+
+```{r load-packages, message = FALSE}
+library(ggplot2)
+library(dplyr)
+```
+
+### Load data
+
+```{r load-data}
+View(brfss2013)
+```
+
+
+
+* * *
+
+## Part 1: Data
+The Behavioral Risk Factor Surveillance System (BRFSS) is the nation's premier system of health-related telephone surveys that collect state data about U.S. residents regarding their health-related risk behaviors, chronic health conditions, and use of preventive services. It was established in 1984. It now collects data in all 50 states as well as the District of Columbia and 3 U.S territories.  BRFSS completes more than 400,000 adult interviews each year, making it the largest continuously conducted health survey system in the world.
+ The BRFSS is a system of ongoing health-related telephone surveys designed to collect data on health-related risk behaviors,chronic health conditions, and use of preventive services from the non-institutionalized adult population i.e age greater than 18 years residing in the United States. 
+The BRFSS does telephonic surveys to collect data from the individuals. The type of sampling used is stratified sampling. It is an observational study and therefore can be generalized.
+It is not an experimental study. Therefore, the relationships are not causal.
+
+* * *
+
+## Part 2: Research questions
+
+**Research quesion 1:**
+How the level of education is related to the income levels of an individual?
+
+**Research quesion 2:**
+How the time of sleep is related to general health of an indivdual?
+
+**Research quesion 3:**
+How the general health of a person is related to the BMI of an individual?
+
+* * *
+
+## Part 3: Exploratory data analysis
+
+**Research quesion 1:**
+
+We are intersested in the variables of income levels and education levels.
+
+
+```{r echo= TRUE}
+dim(brfss2013)
+str(select(brfss2013,X_educag,X_incomg))
+levels(brfss2013$X_educag)<- c("high school","hs grad","attended college","college graduate" )
+ 
+```
+
+Now, we will subset the variables that are of interest to us.
+```{r}
+r<-(select(brfss2013,X_educag,X_incomg))%>%na.omit()
+str(r)
+
+```
+This is the data frame in which we are interested. We have also omitted the unknown values i.e the NA values from these variables.
+
+```{r}
+dim(r)
+```
+This is the dimension of the required dataframe.
+
+To get an idea of the required dataframe, we will have a look at the summary statistics.
+
+```{r}
+summary(r)
+```
+
+
+Now, we will see the relation between the consumptions of fruits and vegetables with the levels of education by using bar graphs.
+```{r}
+ggplot(data= r, aes(x=X_educag, fill= X_incomg))+ geom_bar()
+```
+
+
+We see that the education count is not normalized. So, we plot another graph to find a clear relation between the two variables
+
+```{r}
+ prop.table(table(r$X_educag,r$X_incomg),1)
+ggplot(data= r, aes(x=X_educag, fill= X_incomg))+ geom_bar(position="fill")
+
+
+```
+
+
+
+Conclusion: In this plot, we can see that as the education of an individual increases, the income level also increases to some extent. We can see that the percentage of people more than $50000 are most when the people are graduates.
+
+**Research quesion 2:**
+We are interested in the following variables.
+
+```{r}
+summary(brfss2013$sleptim1)
+summary(brfss2013$genhlth)
+
+
+```
+From the summary statistics of the sleep time, we see the maximum value of sleep is 450 which is not possible. So, we will have to remove the values which are greater than 24 from the dataset.
+```{r}
+s<-(select(brfss2013,genhlth,sleptim1))%>%na.omit()
+t<-filter(s,sleptim1<24)
+dim(t)
+summary(t)
+
+```
+In the above code, we have made a new dataframe consisiting of the variales required and the outliers from the variable of sleep time of people have been removed. Now we will plot a boxplot to show the relation of general health and the time of sleep.
+
+```{r}
+ggplot(data=t, aes(x= genhlth, y= sleptim1)) + geom_boxplot()
+```
+
+Conclusion: In this plot, we can see that generally people with poor health sleep less as compared to better health conditions. 
+
+
+
+
+**Research quesion 3:**
+We are intersted in the variables of general health and the categorically differentiated calculated BMI.
+```{r}
+str(select(brfss2013, genhlth, X_bmi5cat))
+summary(brfss2013$genhlth)
+summary(brfss2013$X_bmi5cat)
+
+```
+Now, we are going to make a new dataset in which only these two variables would be present and the NA values would be removed.
+
+```{r}
+w<-select(brfss2013,genhlth, X_bmi5cat)%>%na.omit()
+dim(w)
+
+```
+The plot between the chosen variabales is shown below.
+
+```{r}
+ggplot(data= brfss2013, aes(x= genhlth, fill = X_bmi5cat)) + geom_bar()
+```
+
+In this plot, we cannot find a clear relation between the general health and the calculated BMI.So, we will normalize the count of variable of general health and compare the results with the calculated categorical variable.
+
+```{r}
+prop.table(table(brfss2013$genhlth,brfss2013$X_bmi5cat),1)
+```
+
+Now, we will do the plotting using bar plot.
+```{r}
+ggplot(data= brfss2013, aes(x= genhlth, fill = X_bmi5cat)) + geom_bar(position ="fill")
+```
+
+
+Conclusion: We see that the people with better health quality have mostly normal weight whereas the people with poor health quality are generally obese as compared to the rest of the people.
+
+
+
+
