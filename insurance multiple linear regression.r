@@ -8,6 +8,8 @@ cor(insurance$bmi,insurance$charges)
 cor(insurance$children,insurance$charges)
 # We can use correlation matrix for finding correlation of each variable with each and every
 # variable.
+ cor(insurance[c("age", "bmi", "children", "charges")])
+
 
 library(caTools)
 set.seed(12345)
