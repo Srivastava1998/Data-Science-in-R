@@ -1,6 +1,7 @@
 library("ggplot2", lib.loc="~/R/win-library/3.4")
 library("dplyr", lib.loc="~/R/win-library/3.4")
 library("C50", lib.loc="~/R/win-library/3.4")
+#hello
 View(test)
 #Fetching the data 
 train<-read.csv("C:/Users/hp/Downloads/train.csv")
