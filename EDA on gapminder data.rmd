@@ -1,0 +1,100 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+We will do some analysis on the gapminder dataset.
+```{r}
+library(dplyr)
+library(ggplot2)
+library(gapminder)
+str(gapminder)
+summary(gapminder)
+
+```
+
+We will do some comparisons between India and Singapore.
+```{r}
+df2<- gapminder %>% filter(country == "India" | country == "Singapore")
+ggplot(data= df2, aes(x= gdpPercap, y= lifeExp, col = country))+ geom_line()+
+  geom_point()
+
+ggplot(data= df2, aes(x= lifeExp, y= year, col= "red"))+  geom_point() +
+  facet_wrap(df2$country)
+ggplot(data= df2, aes(x= gdpPercap, y= year, col= "red"))+  geom_point()+ geom_line()+
+  facet_wrap(df2$country)
+
+ggplot(data= df2, aes(x= pop, y= year, col= "red"))+  geom_point()+ geom_line() +
+  facet_wrap(df2$country)
+```
+
+
+We have compared the life expectancy, per capita GDP and population of India and Singapore. From the above visualizations, we see that Singapore is lot more developed than India.
+
+```{r}
+df3<- gapminder %>% filter(year == 2002)
+```
+
+We have made a data frame which contains all the data from the year 2002 only.
+
+```{r}
+ggplot(data= df3, aes(x= lifeExp)) + geom_histogram(binwidth = 5) + 
+  labs(x=" Life Expectancy", y= "Count of Countries ") + theme_linedraw()
+```
+
+We see that most of the countries have life expectancy between 65 to 85 years.
+
+We can also see the visualization of life expectancy with respect to the continent.
+```{r}
+ggplot(data= df3, aes(x= lifeExp)) + geom_histogram(binwidth = 5) + facet_wrap(df3$continent)+
+  theme_linedraw() + labs(x= "Life Expectancy", y= "Count of Countries")
+```
+
+We see that Africa does not have much life expectancy relative to the other continents
+Most of the countries in Africa have life expectancy between 45 - 55 years. 
+Americas and Euprope have high life expectancy rates.
+
+```{r}
+q<- ifelse(df3$lifeExp>50, "yes", "no")
+df3$life50<- q
+str(df3)
+summary(df3)
+ggplot(data= df3, aes(x= continent, fill= life50))+  geom_bar() + theme_linedraw() +
+  labs(y= "Count of Countries", title = "life Expectancy>50 or not")
+```
+
+We see that more than 20 countries in Africa have less than or equal to 50 years of life
+expectancy.
+
+```{r}
+summary(df3$gdpPercap)
+w<- ifelse(df3$gdpPercap>5000, "yes", "no")
+df3$gdp5000<-w
+```
+
+We have made a new variable in which the value is "yes" if GDP per capita is greater than 
+5000 and "no" if GDP per capita is less than 5000.
+
+```{r}
+ggplot(data = df3, aes(continent, fill= gdp5000))+ geom_bar() +theme_linedraw() +
+  labs(y= "Count of Countries", title = "GDP>5000 or not")
+```
+
+We see that most of the countries in Africa have GDP per capita less than 5000. 
+Gross domestic product (GDP) is a monetary measure of the market value 
+of all the final goods and services produced in a period of time, often annually.
+GDP per capita is the GDP of the country divided by its population.
+
+We can also find the GDP of each country by multiplying population of each country 
+with the per capita GDP.
+
+```{r}
+e<- df3$pop * df3$gdpPercap
+df3$gdp<- e
+str(df3)
+summary(df3)
+
+```
+
