@@ -31,7 +31,8 @@ ggplot(data= df2, aes(x= pop, y= year, col= "red"))+  geom_point()+ geom_line() 
 ```
 
 
-We have compared the life expectancy, per capita GDP and population of India and Singapore. From the above visualizations, we see that Singapore is lot more developed than India.
+We have compared the life expectancy, per capita GDP and population of India and Singapore.
+From the above visualizations, we see that Singapore is lot more developed than India.
 
 ```{r}
 df3<- gapminder %>% filter(year == 2002)
@@ -41,15 +42,15 @@ We have made a data frame which contains all the data from the year 2002 only.
 
 ```{r}
 ggplot(data= df3, aes(x= lifeExp)) + geom_histogram(binwidth = 5) + 
-  labs(x=" Life Expectancy", y= "Count of Countries ") + theme_linedraw()
+  labs(x=" Life Expectancy", y= "Count of Countries ") 
 ```
 
 We see that most of the countries have life expectancy between 65 to 85 years.
 
 We can also see the visualization of life expectancy with respect to the continent.
 ```{r}
-ggplot(data= df3, aes(x= lifeExp)) + geom_histogram(binwidth = 5) + facet_wrap(df3$continent)+
-  theme_linedraw() + labs(x= "Life Expectancy", y= "Count of Countries")
+ggplot(data= df3, aes(x= lifeExp)) + geom_histogram(binwidth = 5) + facet_wrap(df3$continent)
++ labs(x= "Life Expectancy", y= "Count of Countries")
 ```
 
 We see that Africa does not have much life expectancy relative to the other continents
@@ -61,7 +62,7 @@ q<- ifelse(df3$lifeExp>50, "yes", "no")
 df3$life50<- q
 str(df3)
 summary(df3)
-ggplot(data= df3, aes(x= continent, fill= life50))+  geom_bar() + theme_linedraw() +
+ggplot(data= df3, aes(x= continent, fill= life50))+  geom_bar() +
   labs(y= "Count of Countries", title = "life Expectancy>50 or not")
 ```
 
