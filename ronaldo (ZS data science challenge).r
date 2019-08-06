@@ -1,5 +1,5 @@
 #data <- read.csv("C:/Users/hp/Desktop/ZS Associates/data.csv", stringsAsFactors=FALSE)
-data<- read.csv("data.csv", check.names = T, stringsAsFactors = FALSE)
+data<- read.csv("data_ronaldo.csv", check.names = T, stringsAsFactors = FALSE)
 
 # Checking the structure and the summary of the dataset
 str(data)
