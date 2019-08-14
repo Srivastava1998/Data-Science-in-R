@@ -5,7 +5,7 @@ output:
     df_print: paged
 ---
 
-We will do some analysis on the gapminder dataset.
+We will do some analysis on the gapminder dataset. It is a built in dataset in R. The data is accessed through the "gapminder" library.
 ```{r}
 library(dplyr)
 library(ggplot2)
