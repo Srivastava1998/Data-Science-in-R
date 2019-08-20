@@ -1,3 +1,5 @@
+## About the a Titanic Project
+
 The dataset of Titanic is taken from kaggle.com. The data is also available in the R package named "titanic".
 
 The sinking of the RMS Titanic is one of the most infamous shipwrecks in history. 
