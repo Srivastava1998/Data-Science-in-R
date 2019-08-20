@@ -1,4 +1,4 @@
-## About the a Titanic Project
+## About the Titanic Project
 
 The dataset of Titanic is taken from kaggle.com. The data is also available in the R package named "titanic".
 
