@@ -1,4 +1,4 @@
-## Info about HR Project
+## About the HR Project
 
 The data is taken from analyticsvidya.com. In this data, we have to use predictive analytics in identifying the employees most likely to get promoted.
 
